@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_registers",
+  "info": {
+    "singularName": "user-register",
+    "pluralName": "user-registers",
+    "displayName": "user_register",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "registered",
+        "approved",
+        "declined"
+      ],
+      "default": "registered",
+      "required": true
+    },
+    "event": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::event.event"
+    },
+    "campaign": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::campaign.campaign"
+    },
+    "user": {
+      "type": "string"
+    }
+  }
+}
