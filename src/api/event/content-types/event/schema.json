@@ -23,7 +23,7 @@
     "bannerImage": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ]
@@ -51,7 +51,18 @@
       "inversedBy": "events"
     },
     "overview": {
-      "type": "text"
+      "type": "text",
+      "required": true
+    },
+    "community_platform_login": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "community_register_link": {
+      "type": "string",
+      "required": false,
+      "default": "null"
     }
   }
 }
