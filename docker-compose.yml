@@ -1,4 +1,4 @@
-name: "gdsc iitnm backend"
+name: "gdsciitnmbackend"
 
 services:
   postgresql:
