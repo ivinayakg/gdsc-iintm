@@ -362,6 +362,182 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCampaignCampaign extends Schema.CollectionType {
+  collectionName: 'campaigns';
+  info: {
+    singularName: 'campaign';
+    pluralName: 'campaigns';
+    displayName: 'campaign';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.Blocks & Attribute.Required;
+    bannerImage: Attribute.Media & Attribute.Required;
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 10;
+      }>;
+    startTime: Attribute.DateTime & Attribute.Required & Attribute.Unique;
+    endTime: Attribute.DateTime & Attribute.Required;
+    overview: Attribute.Text & Attribute.Required;
+    events: Attribute.Relation<
+      'api::campaign.campaign',
+      'oneToMany',
+      'api::event.event'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::campaign.campaign',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::campaign.campaign',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiContactFormContactForm extends Schema.CollectionType {
+  collectionName: 'contact_forms';
+  info: {
+    singularName: 'contact-form';
+    pluralName: 'contact-forms';
+    displayName: 'Contact_Form';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    fullName: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 10;
+      }>;
+    subject: Attribute.String & Attribute.Required;
+    email: Attribute.Email & Attribute.Required;
+    description: Attribute.Text & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiEventEvent extends Schema.CollectionType {
+  collectionName: 'events';
+  info: {
+    singularName: 'event';
+    pluralName: 'events';
+    displayName: 'event';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    description: Attribute.Blocks & Attribute.Required;
+    bannerImage: Attribute.Media & Attribute.Required;
+    startTime: Attribute.DateTime & Attribute.Required;
+    endTime: Attribute.DateTime & Attribute.Required;
+    registrationOpen: Attribute.DateTime & Attribute.Required;
+    registrationClose: Attribute.DateTime & Attribute.Required;
+    campaign: Attribute.Relation<
+      'api::event.event',
+      'manyToOne',
+      'api::campaign.campaign'
+    >;
+    overview: Attribute.Text & Attribute.Required;
+    community_platform_login: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    community_register_link: Attribute.String & Attribute.DefaultTo<'null'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserRegisterUserRegister extends Schema.CollectionType {
+  collectionName: 'user_registers';
+  info: {
+    singularName: 'user-register';
+    pluralName: 'user-registers';
+    displayName: 'user_register';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    status: Attribute.Enumeration<['registered', 'approved', 'declined']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'registered'>;
+    event: Attribute.Relation<
+      'api::user-register.user-register',
+      'oneToOne',
+      'api::event.event'
+    >;
+    campaign: Attribute.Relation<
+      'api::user-register.user-register',
+      'oneToOne',
+      'api::campaign.campaign'
+    >;
+    user: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-register.user-register',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-register.user-register',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -781,177 +957,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiCampaignCampaign extends Schema.CollectionType {
-  collectionName: 'campaigns';
-  info: {
-    singularName: 'campaign';
-    pluralName: 'campaigns';
-    displayName: 'campaign';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Blocks & Attribute.Required;
-    bannerImage: Attribute.Media & Attribute.Required;
-    slug: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
-      Attribute.SetMinMaxLength<{
-        minLength: 10;
-      }>;
-    startTime: Attribute.DateTime & Attribute.Required & Attribute.Unique;
-    endTime: Attribute.DateTime & Attribute.Required;
-    overview: Attribute.Text & Attribute.Required;
-    events: Attribute.Relation<
-      'api::campaign.campaign',
-      'oneToMany',
-      'api::event.event'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::campaign.campaign',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::campaign.campaign',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiContactFormContactForm extends Schema.CollectionType {
-  collectionName: 'contact_forms';
-  info: {
-    singularName: 'contact-form';
-    pluralName: 'contact-forms';
-    displayName: 'Contact_Form';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    fullName: Attribute.String & Attribute.Required;
-    subject: Attribute.String & Attribute.Required;
-    email: Attribute.Email & Attribute.Required;
-    description: Attribute.Text & Attribute.Required & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::contact-form.contact-form',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::contact-form.contact-form',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiEventEvent extends Schema.CollectionType {
-  collectionName: 'events';
-  info: {
-    singularName: 'event';
-    pluralName: 'events';
-    displayName: 'event';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String & Attribute.Required;
-    description: Attribute.Blocks & Attribute.Required;
-    bannerImage: Attribute.Media & Attribute.Required;
-    startTime: Attribute.DateTime & Attribute.Required;
-    endTime: Attribute.DateTime & Attribute.Required;
-    registrationOpen: Attribute.DateTime & Attribute.Required;
-    registrationClose: Attribute.DateTime & Attribute.Required;
-    campaign: Attribute.Relation<
-      'api::event.event',
-      'manyToOne',
-      'api::campaign.campaign'
-    >;
-    overview: Attribute.Text & Attribute.Required;
-    community_platform_login: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
-    community_register_link: Attribute.String & Attribute.DefaultTo<'null'>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUserRegisterUserRegister extends Schema.CollectionType {
-  collectionName: 'user_registers';
-  info: {
-    singularName: 'user-register';
-    pluralName: 'user-registers';
-    displayName: 'user_register';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    status: Attribute.Enumeration<['registered', 'approved', 'declined']> &
-      Attribute.Required &
-      Attribute.DefaultTo<'registered'>;
-    event: Attribute.Relation<
-      'api::user-register.user-register',
-      'oneToOne',
-      'api::event.event'
-    >;
-    campaign: Attribute.Relation<
-      'api::user-register.user-register',
-      'oneToOne',
-      'api::campaign.campaign'
-    >;
-    user: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-register.user-register',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-register.user-register',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -962,6 +967,10 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::campaign.campaign': ApiCampaignCampaign;
+      'api::contact-form.contact-form': ApiContactFormContactForm;
+      'api::event.event': ApiEventEvent;
+      'api::user-register.user-register': ApiUserRegisterUserRegister;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -970,10 +979,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::campaign.campaign': ApiCampaignCampaign;
-      'api::contact-form.contact-form': ApiContactFormContactForm;
-      'api::event.event': ApiEventEvent;
-      'api::user-register.user-register': ApiUserRegisterUserRegister;
     }
   }
 }

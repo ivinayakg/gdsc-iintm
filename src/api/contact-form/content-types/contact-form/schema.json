@@ -4,7 +4,8 @@
   "info": {
     "singularName": "contact-form",
     "pluralName": "contact-forms",
-    "displayName": "Contact_Form"
+    "displayName": "Contact_Form",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,7 +14,8 @@
   "attributes": {
     "fullName": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 10
     },
     "subject": {
       "type": "string",
@@ -26,7 +28,7 @@
     "description": {
       "type": "text",
       "required": true,
-      "unique": true
+      "unique": false
     }
   }
 }
